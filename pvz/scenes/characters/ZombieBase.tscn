@@ -1,0 +1,99 @@
+[gd_scene load_steps=24 format=2]
+
+[ext_resource path="res://scenes/HurtBox.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/HitBox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/characters/ZombieBase.gd" type="Script" id=3]
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "die1"
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "die2"
+
+[sub_resource type="AnimationNodeAnimation" id=5]
+animation = "eat"
+
+[sub_resource type="AnimationNodeAnimation" id=6]
+animation = "eat2"
+
+[sub_resource type="AnimationNodeAnimation" id=7]
+animation = "walk"
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "walk2"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=9]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=12]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=13]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=14]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=20]
+
+[sub_resource type="AnimationNodeStateMachine" id=1]
+states/die1/node = SubResource( 3 )
+states/die1/position = Vector2( 371, 248.776 )
+states/die2/node = SubResource( 4 )
+states/die2/position = Vector2( 561, 248.776 )
+states/eat1/node = SubResource( 5 )
+states/eat1/position = Vector2( 535, 74 )
+states/eat2/node = SubResource( 6 )
+states/eat2/position = Vector2( 551, 169 )
+states/walk1/node = SubResource( 7 )
+states/walk1/position = Vector2( 397, 74 )
+states/walk2/node = SubResource( 8 )
+states/walk2/position = Vector2( 388, 169 )
+transitions = [ "walk1", "eat1", SubResource( 9 ), "eat1", "walk1", SubResource( 10 ), "walk1", "walk2", SubResource( 11 ), "eat1", "walk2", SubResource( 12 ), "eat1", "eat2", SubResource( 13 ), "walk1", "eat2", SubResource( 14 ), "walk2", "die1", SubResource( 15 ), "walk2", "die2", SubResource( 16 ), "eat2", "die1", SubResource( 17 ), "eat2", "die2", SubResource( 18 ), "walk2", "eat2", SubResource( 19 ), "eat2", "walk2", SubResource( 20 ) ]
+start_node = "walk1"
+graph_offset = Vector2( -33.5691, 13.04 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=2]
+
+[node name="KinematicBody2D" type="KinematicBody2D"]
+script = ExtResource( 3 )
+
+[node name="Sprite" type="Sprite" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+disabled = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 1 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/playback = SubResource( 2 )
+
+[node name="HurtBox" parent="." instance=ExtResource( 1 )]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HurtBox"]
+
+[node name="Position2D" type="Position2D" parent="."]
+
+[node name="HitBox" parent="Position2D" instance=ExtResource( 2 )]
+collision_layer = 8
+collision_mask = 16
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Position2D/HitBox"]
+
+[connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
+[connection signal="area_entered" from="Position2D/HitBox" to="." method="_on_HitBox_area_entered"]
+[connection signal="area_exited" from="Position2D/HitBox" to="." method="_on_HitBox_area_exited"]
