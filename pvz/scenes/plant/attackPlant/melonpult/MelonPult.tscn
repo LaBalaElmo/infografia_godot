@@ -1,0 +1,72 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://scenes/plant/attackPlant/AttackPlant.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/plant/melonpult/melonpult.png" type="Texture" id=2]
+[ext_resource path="res://scenes/plant/attackPlant/melonpult/MelonPult.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "idle"
+length = 2.9
+loop = true
+step = 0.073
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.073, 0.146, 0.219, 0.292, 0.365, 0.438, 0.511, 0.584, 0.657, 0.73, 0.803, 0.876, 0.949, 1.022, 1.095, 1.168, 1.241, 1.314, 1.387, 1.46, 1.533, 1.606, 1.679, 1.752, 1.825, 1.898, 1.971, 2.044, 2.117, 2.19, 2.263, 2.336, 2.409, 2.482, 2.555, 2.628, 2.701, 2.774 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39 ]
+}
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=2]
+
+[node name="MelonPult" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" parent="." index="0"]
+position = Vector2( 0, 26 )
+
+[node name="Sprite" parent="." index="1"]
+position = Vector2( 13.5, 2 )
+scale = Vector2( 0.803191, 0.777778 )
+texture = ExtResource( 2 )
+hframes = 5
+vframes = 9
+
+[node name="AnimationPlayer" parent="." index="2"]
+anims/RESET = SubResource( 1 )
+anims/idle = SubResource( 5 )
+
+[node name="AnimationTree" parent="." index="3"]
+parameters/playback = SubResource( 2 )
+
+[node name="Hurtbox" parent="." index="4"]
+visible = true
+
+[node name="MelonSpawn" type="Position2D" parent="." index="5"]
+position = Vector2( -22, -10 )
+
+[node name="ShootTimer" type="Timer" parent="." index="6"]
+wait_time = 3.0
+autostart = true
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]

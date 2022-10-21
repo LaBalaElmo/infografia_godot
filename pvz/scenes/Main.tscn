@@ -1,0 +1,138 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://assets/garden.png" type="Texture" id=1]
+[ext_resource path="res://assets/resume_button.png" type="Texture" id=6]
+[ext_resource path="res://assets/card_container.png" type="Texture" id=7]
+[ext_resource path="res://assets/plant/sunflower/sunflower_card.png" type="Texture" id=8]
+[ext_resource path="res://assets/plant/peashooter/peashooter_card.png" type="Texture" id=9]
+[ext_resource path="res://assets/plant/melonpult/melonpult_card.png" type="Texture" id=10]
+[ext_resource path="res://scenes/Main.gd" type="Script" id=11]
+[ext_resource path="res://assets/loose.png" type="Texture" id=12]
+[ext_resource path="res://assets/exit_button.png" type="Texture" id=13]
+[ext_resource path="res://assets/play_button.png" type="Texture" id=14]
+[ext_resource path="res://assets/win.jpeg" type="Texture" id=15]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 33.5, 45.5 )
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 11 )
+
+[node name="Garden" type="Sprite" parent="."]
+position = Vector2( 784.5, 415 )
+scale = Vector2( 1.52637, 1.07292 )
+texture = ExtResource( 1 )
+
+[node name="ZombieGeneration" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
+
+[node name="TopBar" type="Sprite" parent="."]
+position = Vector2( 413, 92.375 )
+scale = Vector2( 2.728, 2.45417 )
+texture = ExtResource( 7 )
+
+[node name="SunLabel" type="Label" parent="."]
+margin_left = 128.0
+margin_top = 133.0
+margin_right = 223.0
+margin_bottom = 180.0
+rect_scale = Vector2( 1.5, 1.5 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "50"
+
+[node name="Zombie1" type="Position2D" parent="."]
+position = Vector2( 1524, 260 )
+z_index = 1
+
+[node name="Zombie2" type="Position2D" parent="."]
+position = Vector2( 1524, 372 )
+
+[node name="Zombie3" type="Position2D" parent="."]
+position = Vector2( 1524, 477 )
+
+[node name="Zombie4" type="Position2D" parent="."]
+position = Vector2( 1524, 580 )
+
+[node name="Zombie5" type="Position2D" parent="."]
+position = Vector2( 1524, 671 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 515, 299 )
+
+[node name="loose" type="Sprite" parent="."]
+position = Vector2( 862, 260 )
+scale = Vector2( 0.862429, 0.842437 )
+texture = ExtResource( 12 )
+
+[node name="resume" type="Button" parent="."]
+margin_left = 754.0
+margin_top = 299.0
+margin_right = 1016.0
+margin_bottom = 385.0
+icon = ExtResource( 6 )
+
+[node name="quit" type="Button" parent="."]
+margin_left = 754.0
+margin_top = 535.0
+margin_right = 1018.0
+margin_bottom = 624.0
+icon = ExtResource( 13 )
+
+[node name="play" type="Button" parent="."]
+margin_left = 1734.0
+margin_top = 580.0
+margin_right = 1912.0
+margin_bottom = 638.0
+icon = ExtResource( 14 )
+
+[node name="peashootercard" type="StaticBody2D" parent="."]
+input_pickable = true
+
+[node name="PeashooterCard" type="Sprite" parent="peashootercard"]
+position = Vector2( 262.5, 89.75 )
+scale = Vector2( 1.4375, 1.45652 )
+texture = ExtResource( 9 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="peashootercard"]
+position = Vector2( 264, 91 )
+shape = SubResource( 1 )
+
+[node name="sunflowercard" type="StaticBody2D" parent="."]
+input_pickable = true
+
+[node name="SunflowerCard" type="Sprite" parent="sunflowercard"]
+position = Vector2( 349, 90 )
+scale = Vector2( 1.70833, 1.44928 )
+texture = ExtResource( 8 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="sunflowercard"]
+position = Vector2( 347, 90 )
+shape = SubResource( 1 )
+
+[node name="waterpultcard" type="StaticBody2D" parent="."]
+input_pickable = true
+
+[node name="MelonpultCard" type="Sprite" parent="waterpultcard"]
+position = Vector2( 441, 90 )
+scale = Vector2( 1.68, 1.42857 )
+texture = ExtResource( 10 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="waterpultcard"]
+position = Vector2( 438, 88 )
+shape = SubResource( 1 )
+
+[node name="Win" type="Sprite" parent="."]
+position = Vector2( 842, 412.5 )
+scale = Vector2( 2.13846, 1.53148 )
+texture = ExtResource( 15 )
+
+[connection signal="timeout" from="ZombieGeneration" to="." method="_on_ZombieGeneration_timeout"]
+[connection signal="button_down" from="resume" to="." method="_on_resume_button_down"]
+[connection signal="button_down" from="quit" to="." method="_on_quit_button_down"]
+[connection signal="mouse_entered" from="peashootercard" to="." method="_on_peashootercard_mouse_entered"]
+[connection signal="mouse_exited" from="peashootercard" to="." method="_on_peashootercard_mouse_exited"]
+[connection signal="mouse_entered" from="sunflowercard" to="." method="_on_sunflowercard_mouse_entered"]
+[connection signal="mouse_exited" from="sunflowercard" to="." method="_on_sunflowercard_mouse_exited"]
+[connection signal="mouse_entered" from="waterpultcard" to="." method="_on_waterpultcard_mouse_entered"]
+[connection signal="mouse_exited" from="waterpultcard" to="." method="_on_waterpultcard_mouse_exited"]
